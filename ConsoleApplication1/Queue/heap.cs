@@ -8,58 +8,61 @@ namespace ConsoleApplication1.Queue
 {
     class heap
     {
+        
         private Node[] nodes;      
         public heap()
         {
+          
             
         }
-        public Node maxheap()//Node[] nodes)
+        public  Node maxheap(int i)//i is the index of  last item it i passed to avoid a loop for deleting last element
         { Node temp;
             Node max;
-            int i = 0;
+
+            int count;
+            count = i;
             int j = 1;
-            if (nodes == null || nodes.Count() == 0)
+            if (nodes == null || count == 0)
             {
                 return null;
             }
             if (nodes[1] == null)
                 return null;
             temp = nodes[1];
-            nodes[1] = null;
-            while (nodes[1] == null) // delete last node 
-            {
-                i++;
-                nodes[1] = nodes[nodes.Length-i];
-                if (i > nodes.Length)
-                    return null;
-                if (i == nodes.Length)
-                    return temp;
-                
+            //nodes[1] = null;
+             // delete last node 
                
-            }
-           
-            nodes[nodes.Length-i] = null;
+                if (i <= 0)
+                    return null;
+                if (i == 1)
+                    return  temp;
+            nodes[1] = nodes[i];
+            nodes[i] = null;
+            
+            { Console.Write("\n"+ nodes.Length + "->" +i); }
 
-
-            while (j < nodes.Count())
+            while (j < count)
 
             {
 
                 max = nodes[j];
                 i = j;
-                if (2 * i < nodes.Count())
+                if (2 * i < count)
                 {    if (nodes[2 * i] != null)// if node it have left child
                     {
                         
-                        if (nodes[2 * i].priority > nodes[i].priority) //compare left node with parent
+                        if (nodes[2 * i].priority >=nodes[i].priority) //compare left node with parent
                         {
-                            if (2 * i + 1 < nodes.Count())
+                            if (2 * i + 1 < count)
+                            {
                                 if (nodes[2 * i + 1] != null)
                                 {
                                     if (nodes[2 * i].priority >= nodes[2 * i + 1].priority)
                                     {
                                         max = nodes[2 * i];
                                         nodes[2 * i] = nodes[i];
+                                        
+                                        nodes[i] = max;
                                         j = 2 * i;
 
                                     }
@@ -70,18 +73,21 @@ namespace ConsoleApplication1.Queue
                                 {
                                     max = nodes[2 * i];
                                     nodes[2 * i] = nodes[i];
+                                    nodes[i] = max;
                                     j = 2 * i;
                                 }
-                           
-                            if (nodes[2 * i+1] != null)
-                                if (nodes[2 * i].priority < nodes[2 * i + 1].priority)
+                            }
+                       if(2 * i + 1<count)
+                         if (nodes[2 * i+1] != null)
+                            if (nodes[2 * i].priority < nodes[2 * i + 1].priority)
                             {
 
                                 max = nodes[2 * i + 1];
                                 nodes[2 * i + 1] = nodes[i];
-                                j = 2 * i + 1;
+                                    nodes[i] = max;
+                                    j = 2 * i + 1;
                             }
-                            nodes[i] = max;
+                           
                            
 
                         }
@@ -90,52 +96,69 @@ namespace ConsoleApplication1.Queue
 
                     
                 }
-                if (nodes[2 * i+1] != null)
+                if (2 * i + 1 < count)
                 {
-                    if (nodes[2 * i].priority < nodes[i].priority)
+                    if (nodes[2 * i + 1] != null)
                     {
-
-                        if (2 * i + 1 < nodes.Count())
+                        if (nodes[2 * i].priority < nodes[i].priority)
                         {
-                            if (nodes[2 * i + 1] != null)
+
+                            if (2 * i + 1 < count)
                             {
-                                if (nodes[2 * i + 1].priority > nodes[i].priority)
+                                if (nodes[2 * i + 1] != null)
                                 {
-                                    max = nodes[2 * i + 1];
-                                    nodes[2 * i + 1] = nodes[i];
-                                    nodes[i] = max;
-                                    j = 2 * i + 1;
+                                    if (nodes[2 * i + 1].priority >= nodes[i].priority)
+                                    {
+                                        max = nodes[2 * i + 1];
+                                        nodes[2 * i + 1] = nodes[i];
+                                        nodes[i] = max;
+                                        j = 2 * i + 1;
+                                    }
+                                    else
+                                    {
+                                        j = count;
+                                    }
+
                                 }
                                 else
                                 {
-                                    j = nodes.Count();
+                                    j = count;
                                 }
 
                             }
+                            else
+                            {
+                                j = count;
+                            }
 
                         }
-
+                        else
+                        {
+                            j = count;
+                        }
                     }
                     else
                     {
-                        j = nodes.Count();
+                        j = count;
                     }
                 }
-                else j = nodes.Count();
-                if (2 * i + 1 > nodes.Count())
-                    j = nodes.Count();
+                else j = count;
+                if (2 * i + 1 > count)
+                    j = count;
 
                 
 
             }
 
-           
 
+           
+           
             return temp;
         }
-        public void insert(Node n)
+        public void insert(Node n, int i)
         {
-
+            
+            
             Node[] newnodes;
             if (nodes==null||nodes.Length == 0)
             {
@@ -145,14 +168,18 @@ namespace ConsoleApplication1.Queue
                 return;
             }
             
-            newnodes = new Node[nodes.Length + 1];
+            newnodes = new Node[i + 1];
             nodes.CopyTo(newnodes, 0);
-            int i;
+            newnodes[i] = n;
+            
+           
+           
             Node temp;
-            newnodes[nodes.Length ] = n;
-            i = newnodes.Count()-1;
+           
+
             while (i > 1)
             {
+                
                 if (i % 2 == 0)
                 {
                    
@@ -171,7 +198,7 @@ namespace ConsoleApplication1.Queue
                 else
                 {
                     
-                    if (newnodes[i].priority > newnodes[(i-1) / 2].priority) //check if the parent had per >right child
+                    if (newnodes[i].priority > newnodes[(i-1) / 2].priority) //check if the parent has per >right child per
                     {
                         temp = newnodes[i / 2];
                         newnodes[i / 2] = newnodes[i];
@@ -187,7 +214,7 @@ namespace ConsoleApplication1.Queue
                 }
 
             }
-           
+          
             nodes = newnodes;
         }
 

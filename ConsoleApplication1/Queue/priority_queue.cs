@@ -8,28 +8,37 @@ namespace ConsoleApplication1.Queue
 {
     class priority_queue
     {
-        heap h=new heap();
-        List<Node> nodes =new List<Node>();
+        private int i = 0;
+        private heap h=new heap();
+        private List<Node> nodes =new List<Node>();
         public priority_queue()
         {
 
         }
         public void enqueue(object value, int priority)
         {
-     
-            h.insert(new Node(value,priority));
+            i++;
+            h.insert(new Node(value,priority),i);
+           
 
         }
         public object dequeue()
         {
 
-               
+            
             try
-            { return h.maxheap().value; }
+            {
+               
+                var temp = h.maxheap(i).value;
+                i--;
+                return temp;
+                
+            }
             catch(NullReferenceException)
             {
                 return -1;
             }
+            
            
         }
 

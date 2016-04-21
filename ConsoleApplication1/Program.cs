@@ -13,17 +13,23 @@ namespace ConsoleApplication1
         {
             priority_queue p= new priority_queue();
             p.enqueue("test1",2);
+            
             p.enqueue('t', 4);
             p.enqueue(4, 5);
+           
+            p.enqueue(7, 2);
+            System.Diagnostics.Debug.WriteLine(p.dequeue());
             p.enqueue("test8", 0);
-            p.enqueue(5, -1);
+            p.enqueue(8, -1);
+
             System.Diagnostics.Debug.WriteLine(p.dequeue());
             System.Diagnostics.Debug.WriteLine(p.dequeue());
             System.Diagnostics.Debug.WriteLine(p.dequeue());
             System.Diagnostics.Debug.WriteLine(p.dequeue());
             System.Diagnostics.Debug.WriteLine(p.dequeue());
-            System.Diagnostics.Debug.WriteLine(p.dequeue());
+            System.Diagnostics.Debug.WriteLine(p.dequeue()); // it will return -1 when no more items in queue
             
+
 
 
         }
