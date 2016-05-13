@@ -18,7 +18,7 @@ namespace ConsoleApplication1.Queue
         public void enqueue(object value, int priority)
         {
             i++;
-            h.insert(new Node(value,priority),i);
+            h.insert(new Node(value,priority,i),i);
            
 
         }

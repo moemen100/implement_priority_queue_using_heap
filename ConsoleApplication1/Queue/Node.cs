@@ -11,11 +11,13 @@ namespace ConsoleApplication1.Queue
         
         public object value { get; }
         public int priority { get; }
-        public Node (object value ,int priority)
+        public int no { get; }
+
+        public Node (object value ,int priority,int no)
         {
             this.value = value;
             this.priority=priority;
-
+            this.no = no;
         }
         
 
